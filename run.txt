@@ -1,0 +1,2 @@
+cd C:\Users\ARITRA\CascadeProjects\windsurf-project
+python -m examples.european_option_demo
