@@ -68,6 +68,7 @@ Black–Scholes Analytical Price: 10.49
 ## Visualization
 
 - Simulated GBM paths
+  ![GBM Paths](https://github.com/Aritra22003/Monte-Carlo/blob/439ef94c3048efef3ffb9ec4c81f86c15195c5e4/gbm.png)
 - Convergence of Monte Carlo estimate
 - Histogram of simulated payoffs
 
