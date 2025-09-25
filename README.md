@@ -12,104 +12,125 @@ A Python framework for pricing European and exotic options using Monte Carlo sim
 - **Convergence analysis** to study the behavior of Monte Carlo estimates
 - **Visualization tools** for price paths, payoff distributions, and convergence
 
-## Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/monte-carlo-option-pricing.git
-   cd monte-carlo-option-pricing
-   ```
-
-2. Install the required packages:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## Usage
-
-### Basic Example
-
-```python
-import numpy as np
-from option_pricing.monte_carlo import european_option_mc
-from option_pricing.black_scholes import black_scholes
-
-# Parameters
-S0 = 100.0       # Initial stock price
-K = 100.0        # Strike price
-T = 1.0          # Time to maturity (1 year)
-r = 0.05         # Risk-free rate (5%)
-sigma = 0.2      # Volatility (20%)
-option_type = 'call'  # 'call' or 'put'
-
-# Monte Carlo simulation
-mc_price, mc_std_err, _ = european_option_mc(S0, K, r, sigma, T, option_type)
-print(f"Monte Carlo Price: ${mc_price:.4f} ± ${2 * mc_std_err:.4f} (95% CI)")
-
-# Black-Scholes price for comparison
-bs_price, _ = black_scholes(S0, K, T, r, sigma, option_type)
-print(f"Black-Scholes Price: ${bs_price:.4f}")
-```
-
-### Running the Demo
-
-Run the example script to see Monte Carlo simulation in action:
-
-```bash
-python examples/european_option_demo.py
-```
-
-This will:
-1. Simulate stock price paths using GBM
-2. Price a European option using Monte Carlo
-3. Compare with the Black-Scholes price
-4. Generate visualizations of price paths, payoff distribution, and convergence
 
 ## Project Structure
 
+```bash
+Monte-Carlo/
+│── option_pricing/
+│   ├── gbm.py               # Simulate stock price paths
+│   ├── monte_carlo.py       # Monte Carlo pricers
+│   ├── black_scholes.py     # Closed-form BS model
+│   ├── visualization.py     # Plotting utilities
+│
+│── examples/
+│   ├── european_option_demo.py
+│   ├── asian_option_demo.py
+│
+│── notebooks/
+│   ├── MonteCarlo_European_Call.ipynb   # Interactive demo
+│
+│── requirements.txt
+│── README.md
+│── LICENSE
+
 ```
-option_pricing/
-├── __init__.py          # Package initialization
-├── gbm.py               # Geometric Brownian Motion simulation
-├── monte_carlo.py       # Monte Carlo option pricing
-├── black_scholes.py     # Black-Scholes model
-└── visualization.py     # Plotting and visualization tools
-examples/
-└── european_option_demo.py  # Demo script
+## Installation
+Clone the repo and install dependencies
+
+```bash
+git clone https://github.com/Aritra22003/Monte-Carlo.git
+cd Monte-Carlo
+
+# create virtual environment
+python -m venv venv
+source venv/bin/activate      # Windows: venv\Scripts\activate
+
+#install dependencies
+pip install -r requirements.txt
 ```
 
-## Documentation
+## Usage Example
 
-### Geometric Brownian Motion (GBM)
+Run the European option demo:
+```bash
+python examples/european_option_demo.py
 
-The `gbm` module provides functions for simulating stock price paths:
+```
 
-- `simulate_gbm()`: Simulate stock price paths using GBM
-- `generate_antithetic_variates()`: Generate antithetic variates for variance reduction
+Expected output(sample run with 100,000 simulations):
 
-### Monte Carlo Pricing
+```yaml
+Monte Carlo European Call Price: 10.45 ± 0.05
+Black–Scholes Analytical Price: 10.49
 
-The `monte_carlo` module implements option pricing using Monte Carlo simulation:
+```
+## Visualization
 
-- `european_option_mc()`: Price European call/put options
-- `asian_option_mc()`: Price Asian options with arithmetic or geometric averaging
-- `convergence_analysis()`: Analyze convergence of Monte Carlo estimates
+- Simulated GBM paths
+- Convergence of Monte Carlo estimate
+- Histogram of simulated payoffs
 
-### Black-Scholes Model
+## 🔬 Methodology
 
-The `black_scholes` module provides analytical solutions:
+1. **Model stock prices with GBM**
 
-- `black_scholes()`: Calculate option price and Greeks
-- `implied_volatility()`: Calculate implied volatility from market price
+$$
+S_T = S_0 \exp\Big((r - \tfrac{1}{2}\sigma^2)T + \sigma \sqrt{T} Z\Big), \quad Z \sim N(0,1)
+$$
 
-### Visualization
+---
 
-The `visualization` module provides plotting functions:
+2. **Monte Carlo pricing**
 
-- `plot_price_paths()`: Plot simulated stock price paths
-- `plot_payoff_distribution()`: Plot distribution of option payoffs
-- `plot_convergence()`: Plot convergence of Monte Carlo estimates
-- `plot_volatility_surface()`: Plot implied volatility surface
+$$
+C_{MC} = e^{-rT} \cdot \frac{1}{M} \sum_{i=1}^M \max\!\big(S_T^{(i)} - K, 0\big)
+$$
+
+---
+
+3. **Black–Scholes benchmark**
+
+Closed-form formula for a European call:
+
+$$
+C_{BS} = S_0 N(d_1) - K e^{-rT} N(d_2)
+$$
+
+where
+
+$$
+d_1 = \frac{\ln \tfrac{S_0}{K} + (r + \tfrac{1}{2}\sigma^2)T}{\sigma \sqrt{T}}, 
+\quad 
+d_2 = d_1 - \sigma \sqrt{T}
+$$
+
+---
+
+4. **Variance reduction techniques**
+
+- **Antithetic variates:** use pairs \( Z \) and \( -Z \) to reduce variance.  
+- **Control variates:** compare Monte Carlo results with Black–Scholes analytical solution.
+
+## Sample Plots(plots generated in MonteCarlo_European_call.ipynb)
+
+- GBM sample paths
+- Convergence of Monte Carlo price vs simulations
+- Efficient variance reduction comparison
+
+## What I Learned
+
+- How Monte Carlo methods approximate option pricing by simulating asset paths.
+- Importance of variance reduction to improve efficiency.
+- When Monte Carlo is essential (path-dependent options like Asian options).
+- How to validate results against analytical Black–Scholes solutions.
+- Practical skills: Python modularization, NumPy vectorization, and Matplotlib visualization.
+
+## Next Steps
+
+- mplement Greeks (Δ, Γ, Θ, ρ, Vega) estimation via Monte Carlo.
+- Explore stochastic volatility models (e.g., Heston).
+- Parallelize simulations using Numba or joblib for performance.
 
 ## License
 
