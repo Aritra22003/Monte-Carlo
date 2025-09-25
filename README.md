@@ -71,7 +71,7 @@ Black–Scholes Analytical Price: 10.49
   ![GBM Paths](https://github.com/Aritra22003/Monte-Carlo/blob/439ef94c3048efef3ffb9ec4c81f86c15195c5e4/gbm.png)
 - Distribution of Call Option Payoffs
   ![Call Option Distribution](https://github.com/Aritra22003/Monte-Carlo/blob/8c64749f6cd9e8ebde6e9b7ece338e799cc5ff99/call%20option%20payoff.png)
-- Histogram of simulated payoffs
+- Monte Carlo Convergence for Call Option Pricing
 
 ## 🔬 Methodology
 
