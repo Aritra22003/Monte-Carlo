@@ -131,7 +131,7 @@ $$
 
 ## Next Steps
 
-- mplement Greeks (Δ, Γ, Θ, ρ, Vega) estimation via Monte Carlo.
+- Implement Greeks (Δ, Γ, Θ, ρ, Vega) estimation via Monte Carlo.
 - Explore stochastic volatility models (e.g., Heston).
 - Parallelize simulations using Numba or joblib for performance.
 
